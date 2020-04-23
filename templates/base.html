@@ -44,7 +44,7 @@
 {% block content %}{% endblock content %}
 {% block js %}
     <script>
-    console.log('working');
+   // find out cart items from local storage
     if(localStorage.getItem('cart') == null){
     var cart = {};
     }
@@ -52,9 +52,10 @@
     {
     cart = JSON.parse(localStorage.getItem('cart'));
     document.getElementById('cart').innerHTML = Object.keys(cart).length;
+    updateCart(cart);
     }
+    // If the add to cart button is clicked add/increment the item
     $('.cart').click(function(){
-    console.log('clicked');
     var idstr = this.id.toString();
     console.log(idstr);
     if (cart[idstr] !==undefined){
@@ -64,12 +65,34 @@
     {
     cart[idstr] = 1;
     }
-    console.log(cart);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    document.getElementById('cart').innerHTML = Object.keys(cart).length;
+    updateCart(cart);
     });
+    //add pop over to cart
     $('#popcart').popover({trigger: 'focus'})
     document.getElementById("popcart").setAttribute('data-content', '<h5>Items in your Cart</h5>');
+    function updateCart(cart) {
+        for (var item in cart){
+            document.getElementById('div'+item).innerHTML= "<button id='minus"+item+"'" +
+                "class='btn btn-primary minus'>-</button><span id='val"+item+"''>"+cart[item]+
+                "</span> <button id='plus"+item+"' class='btn btn-primary plus'>+</bbutton>";
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+    document.getElementById('cart').innerHTML = Object.keys(cart).length;
+    }
+    // If plus or minus button is clicked, change the cart as well as display value
+    $('.divpr').on("click", "button.minus", function () {
+        minusBtnId = this.id.slice(7, )
+        cart['pr'+minusBtnId]=cart['pr'+minusBtnId]-1;
+        cart['pr'+minusBtnId]=Math.max(0, cart['pr'+minusBtnId])
+        document.getElementById('valpr'+minusBtnId).innerHTML=cart['pr'+minusBtnId]
+        updateCart(cart)
+    });
+    $('.divpr').on("click", "button.plus", function () {
+        plusBtnId = this.id.slice(6, )
+        cart['pr'+plusBtnId]=cart['pr'+plusBtnId]+1;
+        document.getElementById('valpr'+plusBtnId).innerHTML=cart['pr'+plusBtnId]
+        updateCart(cart)
+    });
 </script>
 {% endblock js %}
 </body>
