@@ -19,24 +19,24 @@ def index(request):
 
 
 def about(request):
-    return HttpResponse("We are at about us view page")
+    return render(request, 'shop/aboutus.html')
 
 
 def contact(request):
-    return HttpResponse("We are at contact view page")
+    return render(request, 'shop/contact.html')
 
 
 def tracker(request):
-    return HttpResponse("We are at tracker view page")
+    return render(request, 'shop/tracker.html')
 
 
 def search(request):
-    return HttpResponse(" We are at search view page")
+    return render(request, 'shop/search.html')
 
 
 def prodview(request):
-    return HttpResponse("We are at roduct view page")
+    return render(request, 'shop/productview.html')
 
 
 def checkout(request):
-    return HttpResponse("We are at checkout view page")
+    return render(request, 'shop/checkout.html')
