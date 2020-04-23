@@ -35,11 +35,12 @@
         {% for i in product %}
         <div class="col-xs-3 col-sm-3 col-md-3 mr-5">
           <div class="card" style="width: 18rem; height: 25rem">
-            <img src='/media/{{i.image}}' class="card-img-top" alt="...">
+            <img src='/media/{{i.image}}' class="card-img-top" alt="{{i.product_name}}">
             <div class="card-body">
               <h5 class="card-title">{{i.product_name}}</h5>
-              <p class="card-text">{{i.desc}}</p>
+              <p class="card-text">{{i.desc|slice:"0:50"}}...</p>
               <button id="pr{{i.id}}" class="btn btn-primary cart">Add To Cart</button>
+                <a href="{% url 'shop:ProductView' i.id %}"><button id="qv{{i.id}}" class="btn btn-primary cart">Quich View</button></a>
             </div>
           </div>
         </div>
@@ -61,34 +62,3 @@
     {% endfor %}
 </div>
  {% endblock content%}
-
-{% block js %}
-<script>
-    console.log('working');
-    if(localStorage.getItem('cart') == null){
-    var cart = {};
-    }
-    else
-    {
-    cart = JSON.parse(localStorage.getItem('cart'));
-    document.getElementById('cart').innerHTML = Object.keys(cart).length;
-    }
-    $('.cart').click(function(){
-    console.log('clicked');
-    var idstr = this.id.toString();
-    console.log(idstr);
-    if (cart[idstr] !==undefined){
-    cart[idstr] = cart[idstr] + 1;
-    }
-    else
-    {
-    cart[idstr] = 1;
-    }
-    console.log(cart);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    document.getElementById('cart').innerHTML = Object.keys(cart).length;
-    });
-    $('#popcart').popover({trigger: 'focus'})
-    document.getElementById("popcart").setAttribute('data-content', '<h5>Items in your Cart</h5>');
-</script>
-{% endblock js%}
