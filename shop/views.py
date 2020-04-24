@@ -14,7 +14,7 @@ def index(request):
         n = len(prod)
         no_of_slides = n // 4 + ceil((n / 4) - (n // 4))
         all_products.append([prod, range(1, no_of_slides), no_of_slides])
-    context = {'all_products': all_products}
+    context = {'all_products': all_products, 'title': 'My~E-Commerce'}
     return render(request, 'shop/index.html', context)
 
 
@@ -28,7 +28,7 @@ def contact(request):
         email = request.POST.get('email', '')
         phone = request.POST.get('phone', '')
         desc = request.POST.get('desc', '')
-        contact = Contact(name=name, email=email,phone=phone,desc=desc)
+        contact = Contact(name=name, email=email, phone=phone, desc=desc)
         contact.save()
     return render(request, 'shop/contact.html')
 
@@ -44,7 +44,7 @@ def search(request):
 def prodview(request, prod_id):
     # Fetch the product using id
     product = Product.objects.filter(id=prod_id)
-    return render(request, 'shop/productview.html', {'products':product[0]})
+    return render(request, 'shop/productview.html', {'products': product[0]})
 
 
 def checkout(request):
