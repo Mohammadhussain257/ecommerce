@@ -25,3 +25,19 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class Order(models.Model):
+    order_id = models.AutoField(primary_key=True)
+    items_json = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
+    email = models.CharField(max_length=200)
+    phone = models.CharField(max_length=15)
+    address = models.CharField(max_length=200)
+    addressline = models.CharField(max_length=200)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name

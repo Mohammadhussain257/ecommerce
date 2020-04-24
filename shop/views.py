@@ -1,6 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Product, Contact
+from django.shortcuts import render, redirect
+from .models import Product, Contact, Order
 from math import ceil
 
 
@@ -48,4 +47,21 @@ def prodview(request, prod_id):
 
 
 def checkout(request):
+    if request.method == 'POST':
+        items_json = request.POST.get('itemsJson', '')
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        phone = request.POST.get('phone', '')
+        address = request.POST.get('address', '')
+        addressline = request.POST.get('addressline', '')
+        city = request.POST.get('city', '')
+        state = request.POST.get('state', '')
+        zip_code = request.POST.get('zip_code', '')
+        order = Order(items_json=items_json, name=name, email=email, phone=phone,
+                      address=address, addressline=addressline,
+                      city=city, state=state, zip_code=zip_code)
+        order.save()
+        confirm_order = True
+        id = order.order_id
+        return render(request, 'shop/checkout.html', {'confirm_order': confirm_order, 'id': id})
     return render(request, 'shop/checkout.html')
