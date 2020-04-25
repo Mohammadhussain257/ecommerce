@@ -30,6 +30,7 @@ class Contact(models.Model):
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
     items_json = models.CharField(max_length=200)
+    amount = models.IntegerField()
     name = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
     phone = models.CharField(max_length=15)
@@ -40,7 +41,7 @@ class Order(models.Model):
     zip_code = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
+        return self.name +" Order ID: "+str(self.order_id)
 
 
 class OrderUpdate(models.Model):
