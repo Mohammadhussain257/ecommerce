@@ -7,6 +7,14 @@
         <div id="items">
             <ul class="list-group" id="items"></ul>
         </div>
+        <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active font-weight-bold"
+                        aria-current="page">Your Total Price is : Rs
+                        <span id="totalPrice"></span> /- Thank you for using My~E-Commerce
+                    </li>
+                </ol>
+        </nav>
     </div>
 
     <div class="col my-4">
@@ -24,16 +32,19 @@
             </div>
               <div class="form-group col-md-2">
               <label for="phone">Phone</label>
-              <input type="number" class="form-control" id="phone" name="phone" placeholder="98....">
+              <input type="number" class="form-control" id="phone" name="phone"
+                     placeholder="98....">
             </div>
           </div>
           <div class="form-group">
             <label for="address">Address</label>
-            <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St">
+            <input type="text" class="form-control" id="address" name="address"
+                   placeholder="1234 Main St">
           </div>
           <div class="form-group">
             <label for="addressline">Address Line 2</label>
-            <input type="text" class="form-control" id="addressline" name="addressline" placeholder="Apartment, studio, or floor">
+            <input type="text" class="form-control" id="addressline" name="addressline"
+                   placeholder="Apartment, studio, or floor">
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
@@ -57,6 +68,7 @@
 {% block js %}
     <script>
     var sum = 0;
+    var totalPrice=0;
         if (localStorage.getItem('cart') == null) {
         var cart = {};
     } else {
@@ -70,15 +82,18 @@
         for (item in cart){
             let name = cart[item][1];
             let qty = cart[item][0];
+            let itemPrice =cart[item][2]
             mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
                 ${name}
                 <span class="badge badge-primary badge-pill">${qty}</span>
               </li>`
             $('#items').append(mystr);
             sum = sum + qty
+            totalPrice = totalPrice+qty*itemPrice
         }
     }
         document.getElementById('cart').innerHTML = sum;
+        document.getElementById('totalPrice').innerHTML = totalPrice;
     $('#itemJson').val(JSON.stringify(cart));
     {% if confirm_order %}
         alert('Thank for ordering with us. Your order id is {{ id }}. Use it to track your order')

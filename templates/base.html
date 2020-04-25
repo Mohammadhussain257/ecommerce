@@ -61,7 +61,8 @@
         } else {
             qty = 1;
             var name = document.getElementById('name'+idstr).innerHTML;
-            cart[idstr] = [qty, name];
+            var price = document.getElementById('price'+idstr).innerHTML;
+            cart[idstr] = [qty, name, parseFloat(price)];
         }
         updateCart(cart);
     });
