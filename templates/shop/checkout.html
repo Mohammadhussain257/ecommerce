@@ -99,7 +99,7 @@
     {% if confirm_order %}
         alert('Thank for ordering with us. Your order id is {{ id }}. Use it to track your order')
         localStorage.clear();
-        document.location={% url 'shop:ShopHome' %}
+        document.location='/shop/';
     {% endif %}
     $('#amount').val($('#totalPrice').html())
     </script>
