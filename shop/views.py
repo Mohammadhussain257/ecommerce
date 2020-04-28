@@ -60,22 +60,23 @@ def contact(request):
 
 
 def tracker(request):
-    if request.method == 'POST':
+    if request.method=="POST":
         orderId = request.POST.get('orderId', '')
         email = request.POST.get('email', '')
         try:
             order = Order.objects.filter(order_id=orderId, email=email)
-            if len(order) > 0:
+            if len(order)>0:
                 update = OrderUpdate.objects.filter(order_id=orderId)
                 updates = []
                 for item in update:
                     updates.append({'text': item.update_desc, 'time': item.timestamp})
-                    response = json.dumps(updates, default=str)
+                    response = json.dumps({"status":"success", "updates": updates,
+                     "itemsJson": order[0].items_json}, default=str)
                 return HttpResponse(response)
             else:
-                return HttpResponse({})
+                return HttpResponse('{"status":"noitem"}')
         except Exception as e:
-            return HttpResponse("An Error Occurred")
+            return HttpResponse('{"status":"error"}')
 
     return render(request, 'shop/tracker.html')
 
