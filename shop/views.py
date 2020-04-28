@@ -39,7 +39,7 @@ def search(request):
         if len(product) != 0:
             all_products.append([product, range(1, no_of_slides), no_of_slides])
     context = {'all_products': all_products}
-    return render(request, 'shop/index.html', context)
+    return render(request, 'shop/search.html', context)
 
 
 def about(request):
