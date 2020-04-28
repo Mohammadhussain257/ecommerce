@@ -38,7 +38,9 @@ def search(request):
         no_of_slides = n // 4 + ceil((n / 4) - (n // 4))
         if len(product) != 0:
             all_products.append([product, range(1, no_of_slides), no_of_slides])
-    context = {'all_products': all_products}
+    context = {'all_products': all_products, 'msg': ""}
+    if len(all_products) == 0 or len(query) < 3:
+        context = {'msg': "Please make sure to enter relevant search"}
     return render(request, 'shop/search.html', context)
 
 

@@ -67,3 +67,11 @@
     {% endfor %}
 </div>
  {% endblock content%}
+{% block js %}
+    <script>
+        {% if msg|length != 0 %}
+                alert('{{ msg }}')
+            window.location.href = "/"
+        {% endif %}
+    </script>
+{% endblock %}
