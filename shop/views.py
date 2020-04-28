@@ -19,6 +19,29 @@ def index(request):
     return render(request, 'shop/index.html', context)
 
 
+def search_match(query, item):
+    if query in item.desc.lower() or query in item.product_name.lower() or query in item.category.lower():
+        return True
+    else:
+        return False
+
+
+def search(request):
+    query = request.GET.get('search')
+    all_products = []
+    product_category = Product.objects.values('category', 'id')
+    category = {item['category'] for item in product_category}
+    for cat in category:
+        prod = Product.objects.filter(category=cat)
+        product = [item for item in prod if search_match(query, item)]
+        n = len(product)
+        no_of_slides = n // 4 + ceil((n / 4) - (n // 4))
+        if len(product) != 0:
+            all_products.append([product, range(1, no_of_slides), no_of_slides])
+    context = {'all_products': all_products}
+    return render(request, 'shop/index.html', context)
+
+
 def about(request):
     return render(request, 'shop/aboutus.html')
 
@@ -40,11 +63,11 @@ def tracker(request):
         email = request.POST.get('email', '')
         try:
             order = Order.objects.filter(order_id=orderId, email=email)
-            if len(order)>0:
+            if len(order) > 0:
                 update = OrderUpdate.objects.filter(order_id=orderId)
                 updates = []
                 for item in update:
-                    updates.append({'text':item.update_desc, 'time': item.timestamp})
+                    updates.append({'text': item.update_desc, 'time': item.timestamp})
                     response = json.dumps(updates, default=str)
                 return HttpResponse(response)
             else:
@@ -53,10 +76,6 @@ def tracker(request):
             return HttpResponse("An Error Occurred")
 
     return render(request, 'shop/tracker.html')
-
-
-def search(request):
-    return render(request, 'shop/search.html')
 
 
 def prodview(request, prod_id):
